@@ -1,0 +1,129 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ProductVM
+
+<div class="row">
+    <!-- Form Column -->
+    <div class="col-md-10">
+        <form method="post" enctype="multipart/form-data">
+            <input asp-for="Product.Id" hidden/>
+            <input asp-for="Product.ImageUrl" hidden/>
+            <div class="border p-3 my-4">
+                <div class="row pb-2">
+                    <h2 class="text-primary"> @(Model.Product.Id != 0 ? "Update" : "Create") Product</h2>
+                </div>
+
+                <div asp-validation-summary="All"></div>
+
+                <div class="mb-3 row p-1">
+                    <label asp-for="Product.Title" class="p-0"></label>
+                    <input asp-for="Product.Title" type="text" class="form-control border-0 shadow"/>
+                    <span asp-validation-for="Product.Title" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 row p-1">
+                    <label asp-for="Product.Author" class="p-0"></label>
+                    <input asp-for="Product.Author" type="text" class="form-control border-0 shadow"/>
+                    <span asp-validation-for="Product.Author" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 row p-1">
+                    <label asp-for="Product.Description" class="p-0"></label>
+                    <textarea asp-for="Product.Description" id="Product_Description" class="form-control border-0 shadow"></textarea>
+                    <span asp-validation-for="Product.Description" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 row p-1">
+                    <label asp-for="Product.ISBN" class="p-0"></label>
+                    <input asp-for="Product.ISBN" type="text" class="form-control border-0 shadow"/>
+                    <span asp-validation-for="Product.ISBN" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 row p-1">
+                    <label asp-for="Product.Price" class="p-0"></label>
+                    <input asp-for="Product.Price" type="text" class="form-control border-0 shadow"/>
+                    <span asp-validation-for="Product.Price" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 row p-1">
+                    <label asp-for="Product.ListPrice" class="p-0"></label>
+                    <input asp-for="Product.ListPrice" type="text" class="form-control border-0 shadow"/>
+                    <span asp-validation-for="Product.ListPrice" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 row p-1">
+                    <label asp-for="Product.Price50" class="p-0"></label>
+                    <input asp-for="Product.Price50" type="text" class="form-control border-0 shadow"/>
+                    <span asp-validation-for="Product.Price50" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 row p-1">
+                    <label asp-for="Product.Price100" class="p-0"></label>
+                    <input asp-for="Product.Price100" type="text" class="form-control border-0 shadow"/>
+                    <span asp-validation-for="Product.Price100" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 row p-1">
+                    <label asp-for="Product.CategoryId" class="p-0"></label>
+                    <select asp-for="Product.CategoryId" asp-items="@Model.CategoryList" class="form-control border-0 shadow">
+                        <option value="">-- Select Category --</option>
+                    </select>
+                    <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 row p-1">
+                    <input type="file" name="file" class="form-control border-0 shadow"/>
+                    <label asp-for="Product.ImageUrl" class="p-0"></label>
+                </div>
+
+                <div class="row">
+                    <div class="col-6 col-md-3">
+                        @if (Model.Product.Id == 0)
+                        {
+                            <button type="submit" class="btn btn-primary form-control">Create</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-primary form-control">Confirm Update</button>
+                        }
+                    </div>
+
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary border form-control">
+                            Back to Products list
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    <!-- Image Column -->
+    <div class="col-md-4 text-center">
+        @if (!string.IsNullOrEmpty(Model.Product.ImageUrl))
+        {
+            <img src="@Model.Product.ImageUrl" class="img-fluid rounded shadow" alt="Product Image" style="max-height: 250px;">
+        }
+        else
+        {
+            <img src="/images/default.png" class="img-fluid rounded shadow" alt="Default Image" style="max-height: 250px;">
+        }
+    </div>
+</div>
+
+@section Scripts
+{
+    @{
+
+        <partial name="_ValidationScriptsPartial"/>
+    }
+
+    <partial name="_ValidationScriptsPartial"/>
+    <script>
+        tinymce.init({
+            selector: '#Product_Description',
+            plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+            toolbar_mode: 'floating',
+        });
+    </script>
+}
